@@ -1,190 +1,60 @@
 'use strict';
 
-var arr = [
-{
-  "author": {
-    "avatar": 'img/avatars/user{{08}}.png'
-  },
-  "offer": {
-    "title": "Неуютное бунгало по колено в воде",
-    "address": "{{location.x}}, {{location.y}}",
-    "price": 3500,
-    "type": 'bungalo',
-    "rooms": 3,
-    "guests": 3,
-    "checkin": '14:00',
-    "checkout": '12:00',
-    "features": ["wifi", "dishwasher", "parking"],
-    "description": '',
-    "photos": ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"]
-  },
+function setarr () {
 
-  "location": {
-    "x": 333,
-    "y": 401
-  }
-},
- {
-  "author": {
-    "avatar": 'img/avatars/user{{07}}.png'
-  },
-  "offer": {
-    "title": "Уютное бунгало далеко от моря",
-    "address": "{{location.x}}, {{location.y}}",
-    "price": 7800,
-    "type":'bungalo',
-    "rooms": 3,
-    "guests": 4,
-    "checkin": '14:00',
-    "checkout": '13:00',
-    "features": ["wifi", "parking", "washer", "conditioner"],
-    "description": '',
-    "photos": ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg"]
-  },
-  "location": {
-    "x": 450,
-    "y": 301
-  }
-},
- {
-  "author": {
-    "avatar": 'img/avatars/user{{06}}.png'
-  },
-  "offer": {
-    "title": "Некрасивый негостеприимный домик",
-    "address": "{{location.x}}, {{location.y}}",
-    "price": 5200,
-    "type": 'house',
-    "rooms": 2,
-    "guests": 3,
-    "checkin": '12:00',
-    "checkout": '12:00',
-    "features": ["wifi", "conditioner"],
-    "description": '',
-    "photos": ["http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg", "http://o0.github.io/assets/images/tokyo/hotel1.jpg"]
-  },
-  "location": {
-    "x": 222,
-    "y": 12
-  }
-},
- {
-  "author": {
-    "avatar": 'img/avatars/user{{05}}.png'
-  },
-  "offer": {
-    "title":  "Красивый гостевой домик",
-    "address": "{{location.x}}, {{location.y}}",
-    "price": 8999,
-    "type": 'house',
-    "rooms": 5,
-    "guests": 6,
-    "checkin": '13:00',
-    "checkout": '14:00',
-    "features": ["wifi", "parking", "washer", "elevator", "conditioner"],
-    "description": '',
-    "photos": ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"]
-  },
-  "location": {
-    "x": 578,
-    "y": 496
-  }
-},
- {
-  "author": {
-    "avatar": 'img/avatars/user{{04}}.png'
-  },
-  "offer": {
-    "title": "Маленький ужасный дворец",
-    "address": "{{location.x}}, {{location.y}}",
-    "price": 74000,
-    "type": 'bungalo',
-    "rooms": 5,
-    "guests": 3,
-    "checkin": '12:00',
-    "checkout": '14:00',
-    "features":["wifi", "dishwasher", "parking"],
-    "description": '',
-    "photos": ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg"]
-},
-  "location": {
-    "x": 237,
-    "y": 77
-  }
-},
- {
-  "author": {
-    "avatar": 'img/avatars/user{{03}}.png'
-  },
-  "offer": {
-    "title": 'Огромный прекрасный дворец',
-    "address": "{{location.x}}, {{location.y}}",
-    "price": 9999,
-    "type": 'flat',
-    "rooms": 1,
-    "guests": 2,
-    "checkin": '12:00',
-    "checkout": '12:00',
-    "features": ["parking", "elevator", "conditioner"],
-    "description": '',
-    "photos": ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"]
-  },
-  "location": {
-    "x": 822,
-    "y": 333
-  }
-},
- {
-  "author": {
-    "avatar": 'img/avatars/user{{02}}.png',
-  },
-  "offer": {
-    "title": 'Маленькая неуютная квартира',
-    "address": "{{location.x}}, {{location.y}}",
-    "price": 560000,
-    "type": 'flat',
-    "rooms": 2,
-    "guests": 1,
-    "checkin": '14:00',
-    "checkout": '12:00',
-    "features": ["wifi", "elevator", "conditioner"],
-    "description": '',
-    "photos": ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"]
-  },
-  "location": {
-    "x": 750,
-    "y": 444
-  }
-},
- {
-  "author": {
-    "avatar": 'img/avatars/user{{01}}.png',
-  },
-  "offer": {
-    "title": "Большая уютная квартира",
-    "address": "{{location.x}}, {{location.y}}",
-    "price": 123300,
-    "type": 'house',
-    "rooms": 5,
-    "guests": 8,
-    "checkin": '14:00',
-    "checkout": '14:00',
-    "features": ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"],
-    "description": '',
-    "photos": ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"]
-  },
-  "location": {
-    "x": 700,
-    "y": 499
-  }
-}];
+var domicileSpecification = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
+var domiciles = ['flat', 'house', 'bungalo'];
+var checkinCheckout = ['12:00', '13:00', '14:00'];
+var advantages = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+function getRandomFeatures(advantages) {
+	var lengthRandom = Math.floor(Math.random()*advantages.length) + 1;
+	var advantagesRandom = [];
+	for (var j = 0; j < lengthRandom; j++) { 
+		advantagesRandom[j] = advantages[Math.floor(Math.random()*advantages.length)];
+		advantages.splice(advantages.indexOf(advantagesRandom[j]), 1);  
+		
+ };
+  return advantagesRandom;
+  console.log(advantagesRandom);
+  };
+function getRandomPhotos(a, b) {
+  return Math.random() - 0.5;
+};  
 
+for (var i = 0; i < 8; i++) {
+	var arr = [];
+	arr[i] = {
+  "author": {
+    "avatar": 'img/avatars/user0' + i + '.png',
+  },
+  "offer": {
+    "title": domicileSpecification[i],
+    "address": "{{location.x}}, {{location.y}}",
+    "price": 1000 + Math.floor(Math.random()*999000),
+    "type": domiciles[Math.floor(Math.random()*domiciles.length)],
+    "rooms": 1 + Math.floor(Math.random()*5),
+    "guests": 1 + Math.floor(Math.random()*8),
+    "checkin": checkinCheckout[Math.floor(Math.random()*checkinCheckout.length)],
+    "checkout": checkinCheckout[Math.floor(Math.random()*checkinCheckout.length)],
+    "features": getRandomFeatures(advantages),
+    "description": '',
+    "photos": photos.sort(getRandomPhotos)
+},
+  "location": {
+    "x": 300 + Math.floor(Math.random()*600),
+    "y": 150 + Math.floor(Math.random()*350)
+  }
+}
+};
+return arr;
+};
+console.log(setarr());
 var map = document.querySelector('.map');
 	map.classList.remove('.map--faded');
 
 var pinAvatar = document.querySelector('.map_pin_avatar');
 var fragmentPin = document.createDocumentFragment();
-console.log(pinAvatar);
 for (var i = 0; i < arr.length; i++) {
 	var locationLeft = arr[i].location.x + 20 + 'px';
 	pinAvatar.style.left='locationLeft';
