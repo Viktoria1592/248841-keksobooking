@@ -22,15 +22,16 @@ function setarr() {
   }
 
   var arr = [];
-
   for (var i = 0; i < 8; i++) {
+    var locationX = 300 + Math.floor(Math.random() * 600);
+    var locationY = 150 + Math.floor(Math.random() * 350);
     arr[i] = {
       'author': {
         'avatar': 'img/avatars/user0' + (i + 1) + '.png',
       },
       'offer': {
         'title': domicileSpecification[i],
-        'address': '{{location.x}}, {{location.y}}',
+        'address': locationX + ', ' + locationY,
         'price': 1000 + Math.floor(Math.random() * 999000),
         'type': domiciles[Math.floor(Math.random() * domiciles.length)],
         'rooms': 1 + Math.floor(Math.random() * 5),
@@ -42,8 +43,8 @@ function setarr() {
         'photos': photos.sort(getRandomPhotos)
       },
       'location': {
-        'x': 300 + Math.floor(Math.random() * 600),
-        'y': 150 + Math.floor(Math.random() * 350)
+        'x': locationX,
+        'y': locationY
       }
     };
   }
