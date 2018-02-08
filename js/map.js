@@ -17,7 +17,7 @@ function setarr() {
     return advantagesRandom;
   }
 
-  function getRandomPhotos(a, b) {
+  function shufflingComparator() {
     return Math.random() - 0.5;
   }
 
@@ -40,7 +40,7 @@ function setarr() {
         'checkout': checkinCheckout[Math.floor(Math.random() * checkinCheckout.length)],
         'features': getRandomFeatures(advantages),
         'description': '',
-        'photos': photos.sort(getRandomPhotos)
+        'photos': photos.sort(shufflingComparator)
       },
       'location': {
         'x': locationX,
