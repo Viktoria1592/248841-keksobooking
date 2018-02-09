@@ -5,7 +5,7 @@ var HEIGHT_PHOTO = 140;
 
 var map = document.querySelector('.map');
 var mapFiltersContainer = map.querySelector('.map__filters-container');
-var mapPins = document.querySelector('.map__pins');  
+var mapPins = document.querySelector('.map__pins');
 var commonTemplate = document.querySelector('template');
 var pinAvatar = commonTemplate.content.querySelector('.map_pin_avatar');
 var mapCard = commonTemplate.content.querySelector('.map__card');
@@ -63,7 +63,7 @@ function setarr() {
 }
 
 function createPins(arrPinsData) {
-	var fragmentPin = document.createDocumentFragment();
+  var fragmentPin = document.createDocumentFragment();
   for (var i = 0; i < arrPinsData.length; i++) {
     var pin = pinAvatar.cloneNode(true);
     pin.style.left = arrPinsData[i].location.x + 20 + 'px';
@@ -134,6 +134,6 @@ function init() {
   mapPins.appendChild(createPins(pinsData));
   mapFiltersContainer.before(createCard(pinsData[0], card));
   map.classList.remove('.map--faded');
-};
+}
 
-init();
+init()
