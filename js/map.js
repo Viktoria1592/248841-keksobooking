@@ -1,5 +1,16 @@
 'use strict';
 
+var WIDTH_PHOTO = 210;
+var HEIGHT_PHOTO = 140;
+
+var map = document.querySelector('.map');
+var mapFiltersContainer = map.querySelector('.map__filters-container');
+var mapPins = document.querySelector('.map__pins');  
+var commonTemplate = document.querySelector('template');
+var pinAvatar = commonTemplate.content.querySelector('.map_pin_avatar');
+var mapCard = commonTemplate.content.querySelector('.map__card');
+var card = mapCard.cloneNode('true');
+
 function setarr() {
   var domicileSpecification = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
   var domiciles = ['flat', 'house', 'bungalo'];
@@ -51,30 +62,17 @@ function setarr() {
   return arr;
 }
 
-var WIDTH_PHOTO = 210;
-var HEIGHT_PHOTO = 140;
-var pinsData = setarr();
-var map = document.querySelector('.map');
-var commonTemplate = document.querySelector('template');
-var pinAvatar = commonTemplate.content.querySelector('.map_pin_avatar');
-var fragmentPin = document.createDocumentFragment();
-var mapPins = document.querySelector('.map__pins');
-
-function createPin(arrPinsData, arrFragmentPin) {
-  for (var i = 0; i < pinsData.length; i++) {
+function createPins(arrPinsData) {
+	var fragmentPin = document.createDocumentFragment();
+  for (var i = 0; i < arrPinsData.length; i++) {
     var pin = pinAvatar.cloneNode(true);
     pin.style.left = arrPinsData[i].location.x + 20 + 'px';
     pin.style.top = arrPinsData[i].location.y + 44 + 'px';
     pin.children[0].src = arrPinsData[i].author.avatar;
-    arrFragmentPin.appendChild(pin);
+    fragmentPin.appendChild(pin);
   }
   return fragmentPin;
 }
-mapPins.appendChild(createPin(pinsData, fragmentPin));
-
-var mapCard = commonTemplate.content.querySelector('.map__card');
-var fragmentCard = document.createDocumentFragment();
-var card = mapCard.cloneNode('true');
 
 function creatfeatures(featuresPinsDataArr, cardfeatures) {
   var popupFeatures = cardfeatures.querySelector('.popup__features');
@@ -108,7 +106,8 @@ function creatFotos(cardPictures, fotosPinsData) {
   return popupPictures;
 }
 
-function createCard(pinsDataArr, fragmentCardAvatar, cardPopup) {
+function createCard(pinsDataArr, cardPopup) {
+  var fragmentCard = document.createDocumentFragment();
   cardPopup.children[0].src = pinsDataArr.author.avatar;
   cardPopup.children[2].textContent = pinsDataArr.offer.title;
   cardPopup.children[3].children[0].textContent = pinsDataArr.offer.address;
@@ -125,11 +124,16 @@ function createCard(pinsDataArr, fragmentCardAvatar, cardPopup) {
   creatfeatures(pinsDataArr, cardPopup);
   cardPopup.children[9].textContent = pinsDataArr.offer.description;
   creatFotos(cardPopup, pinsDataArr);
-  fragmentCardAvatar.appendChild(cardPopup);
-  return fragmentCardAvatar;
+  fragmentCard.appendChild(cardPopup);
+  return fragmentCard;
 }
 
-var mapFiltersContainer = map.querySelector('.map__filters-container');
-mapFiltersContainer.before(createCard(pinsData[0], fragmentCard, card));
+function init() {
+  var pinsData = setarr();
 
-map.classList.remove('.map--faded');
+  mapPins.appendChild(createPins(pinsData));
+  mapFiltersContainer.before(createCard(pinsData[0], card));
+  map.classList.remove('.map--faded');
+};
+
+init();
