@@ -68,6 +68,7 @@ function createPins(arrPinsData) {
   var fragmentPin = document.createDocumentFragment();
   for (var i = 0; i < arrPinsData.length; i++) {
     var pin = pinAvatar.cloneNode(true);
+    pin.dataset.index = i;
     pin.style.left = arrPinsData[i].location.x + 20 + 'px';
     pin.style.top = arrPinsData[i].location.y + 44 + 'px';
     pin.children[0].src = arrPinsData[i].author.avatar;
@@ -131,51 +132,49 @@ function createCard(pinsDataArr, cardPopup) {
 }
 
 function init() {
-  var pinsData = setarr();  
-  
-  mapPinMain.addEventListener('mouseup', function(evt) {
+  var pinsData = setarr();
+  console.log(pinsData);
+  var mapPinMain = document.querySelector('.map__pin--main');
+  mapPinMain.addEventListener('mouseup', function (evt) {
     removeMapFaded();
     removeNoticeFormDisabled();
     removeDisable();
-	mapPins.appendChild(createPins(pinsData));
-    
-	var address = document.getElementById('address');
-	address.value = (evt.clientX + SIZE_PIN_X / 2) + ', ' + (evt.clientY + SIZE_PIN_Y);
-	mapPins.addEventListener('click', function(evt) {
-	  console.dir(evt.target.x); 
-	  console.dir(evt.target.x); 
-	  //for( var i = 0; i < pinsData.length; i++) {
-	  //while (evt.target.x === (pinsData[i].location.x + 20) && evt.target.y === (pinsData[i].location.y + 44)) {
-      //  mapFiltersContainer.before(createCard(pinsData[i], card)); 
-  //}  
-	  //}
-	//mapFiltersContainer.before(createCard(pinsData[evt.], card));  
+    mapPins.appendChild(createPins(pinsData));
+
+    var address = document.getElementById('address');
+    address.value = (evt.clientX + SIZE_PIN_X / 2) + ', ' + (evt.clientY + SIZE_PIN_Y);
+    //var createCardPin = 0;
+    function onMapPinsClick(evt) {
+      for (var i = 0; i < evt.path.length; i++) {
+        if (evt.path[i].className === 'map__pin map_pin_avatar') {
+          //if (createCardPin !== 0) {
+          //  createCardPin.remove();
+          //}
+          //createCardPin = createCard(pinsData[i], card);
+          mapFiltersContainer.before(createCard(pinsData[evt.path[i].dataset.index], card));
+        }
+      }
+    }
+    mapPins.addEventListener('click', onMapPinsClick);
   });
-}); 
- 
-}
 
-var mapPinMain = document.querySelector('.map__pin--main');
+  function removeMapFaded() {
+    map.classList.remove('map--faded');
+  }
 
-function removeMapFaded() {
-	map.classList.remove('map--faded');
-}
+  function removeNoticeFormDisabled() {
+    var noticeForm = document.querySelector('.notice__form');
+    noticeForm.classList.remove('notice__form--disabled');
+  }
 
-function removeNoticeFormDisabled() {
-	var noticeForm = document.querySelector('.notice__form');
-	noticeForm.classList.remove('notice__form--disabled');
+  function removeDisable() {
+    var fieldset = document.querySelectorAll('fieldset');
+    for (var i = 0; i < fieldset.length; i++) {
+      if (fieldset[i].hasAttribute('disabled')) {
+        fieldset[i].removeAttribute('disabled');
+      }
+    }
+  }
 }
-
-function removeDisable() {
-	var fieldset = document.querySelectorAll('fieldset');
-  for(var i = 0 ; i < fieldset.length; i++)	
-	if (fieldset[i].hasAttribute('disabled')) {
-		fieldset[i].removeAttribute('disabled');
-}
-}
-
-//function addAdrress() {	
-//}
 
 init();
-
