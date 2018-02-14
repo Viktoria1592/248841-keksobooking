@@ -229,7 +229,6 @@ function onRoomNumberChange(evt) {
 
 roomNumber.addEventListener('change', onRoomNumberChange);
 
-
 function init() {
   pinsData = setarr();
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -248,14 +247,7 @@ function init() {
     timein.addEventListener('change', onTimeinChange);
     timeout.addEventListener('change', onTimeoutChange);
     roomNumber.addEventListener('change', onRoomNumberChange);
-    noticeForm.addEventListener('invalid', function (evt) {
-      console.dir(evt);
-      evt.target.style.backgroundcolor = '#FFDDDD';
-      evt.target.setCustomValidity('Обязательное поле');
-    });
   });
-
-
 }
 
 init();
