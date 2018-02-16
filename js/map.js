@@ -1,5 +1,5 @@
 'use strict';
-
+//КОНСТАНТЫ
 var WIDTH_PHOTO = 70;
 var HEIGHT_PHOTO = 50;
 var SIZE_PIN_X = 65;
@@ -14,82 +14,27 @@ var mapCard = commonTemplate.content.querySelector('.map__card');
 var isCardShown = false;
 var noticeForm = document.querySelector('.notice__form');
 
-
 var typeOfHousing = {
   'flat': 'Квартира',
   'bungalo': 'Бунгало',
   'house': 'Дом'
 };
 
-var domicileSpecification = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
-var domiciles = ['flat', 'house', 'bungalo'];
-var checkinCheckout = ['12:00', '13:00', '14:00'];
-var advantages = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+//модуль, который создает данные data.js
 
 var pinsData;
 
-function getRandomFeatures(arrAdvantages) {
-  var lengthRandom = Math.floor(Math.random() * arrAdvantages.length) + 1;
-  var advantagesRandom = [];
-  for (var j = 0; j < lengthRandom; j++) {
-    advantagesRandom[j] = arrAdvantages[Math.floor(Math.random() * arrAdvantages.length)];
-    arrAdvantages.splice(arrAdvantages.indexOf(advantagesRandom[j]), 1);
-  }
-  return advantagesRandom;
-}
-
-function shufflingComparator() {
-  return Math.random() - 0.5;
-}
 
 
-function setarr() {
 
-  var arr = [];
 
-  for (var i = 0; i < 8; i++) {
-    var locationX = 300 + Math.floor(Math.random() * 600);
-    var locationY = 150 + Math.floor(Math.random() * 350);
-    arr[i] = {
-      'author': {
-        'avatar': 'img/avatars/user0' + (i + 1) + '.png',
-      },
-      'offer': {
-        'title': domicileSpecification[i],
-        'address': locationX + ', ' + locationY,
-        'price': 1000 + Math.floor(Math.random() * 999000),
-        'type': domiciles[Math.floor(Math.random() * domiciles.length)],
-        'rooms': 1 + Math.floor(Math.random() * 5),
-        'guests': 1 + Math.floor(Math.random() * 8),
-        'checkin': checkinCheckout[Math.floor(Math.random() * checkinCheckout.length)],
-        'checkout': checkinCheckout[Math.floor(Math.random() * checkinCheckout.length)],
-        'features': getRandomFeatures(advantages),
-        'description': '',
-        'photos': photos.slice().sort(shufflingComparator)
-      },
-      'location': {
-        'x': locationX,
-        'y': locationY
-      }
-    };
-  }
-  return arr;
-}
+//модуль, который управляет карточками объявлений и пинами map.js
+//СОЗДАНИЕ ПИНОВ pin.js
 
-function createPins(arrPinsData) {
-  var fragmentPin = document.createDocumentFragment();
 
-  for (var i = 0; i < arrPinsData.length; i++) {
-    var pin = pinAvatar.cloneNode(true);
-    pin.dataset.index = i;
-    pin.style.left = arrPinsData[i].location.x + 20 + 'px';
-    pin.style.top = arrPinsData[i].location.y + 44 + 'px';
-    pin.children[0].src = arrPinsData[i].author.avatar;
-    fragmentPin.appendChild(pin);
-  }
-  return fragmentPin;
-}
+
+
+//СОЗДАНИЕ КАРТОЧКИ card.js
 
 function creatfeatures(featuresPinsDataArr, cardfeatures) {
   var popupFeatures = cardfeatures.querySelector('.popup__features');
@@ -104,7 +49,6 @@ function creatfeatures(featuresPinsDataArr, cardfeatures) {
   }
   return popupFeatures;
 }
-
 function creatFotos(cardPictures, fotosPinsData) {
   var popupPictures = cardPictures.querySelector('.popup__pictures');
 
@@ -124,24 +68,6 @@ function creatFotos(cardPictures, fotosPinsData) {
     popupPictures.appendChild(li);
   }
   return popupPictures;
-}
-
-function createCard(pinsDataArr, cardPopup) {
-  var fragmentCard = document.createDocumentFragment();
-  cardPopup.children[0].src = pinsDataArr.author.avatar;
-  cardPopup.children[2].textContent = pinsDataArr.offer.title;
-  cardPopup.children[3].children[0].textContent = pinsDataArr.offer.address;
-  var popupPrice = cardPopup.querySelector('.popup__price');
-  popupPrice.textContent = pinsDataArr.offer.price + '&#x20bd;/ночь';
-
-  cardPopup.children[5].textContent = typeOfHousing[pinsDataArr.offer.type];
-  cardPopup.children[6].textContent = pinsDataArr.offer.rooms + ' комнаты для ' + pinsDataArr.offer.guests + ' гостей';
-  cardPopup.children[7].textContent = 'Заезд после ' + pinsDataArr.offer.checkin + ', выезд до ' + pinsDataArr.offer.checkout;
-  creatfeatures(pinsDataArr, cardPopup);
-  cardPopup.children[9].textContent = pinsDataArr.offer.description;
-  creatFotos(cardPopup, pinsDataArr);
-  fragmentCard.appendChild(cardPopup);
-  return fragmentCard;
 }
 
 function onMapPinsClick(evt) {
@@ -230,14 +156,14 @@ function onRoomNumberChange(evt) {
 roomNumber.addEventListener('change', onRoomNumberChange);
 
 function init() {
-  pinsData = setarr();
+  pinsData = data.setarr();
   var mapPinMain = document.querySelector('.map__pin--main');
 
   mapPinMain.addEventListener('mouseup', function (evt) {
     removeMapFaded();
     removeNoticeFormDisabled();
     removeDisable();
-    mapPins.appendChild(createPins(pinsData));
+    mapPins.appendChild(pin.createPins(pinsData));
 
     var address = document.getElementById('address');
     address.value = (evt.clientX + SIZE_PIN_X / 2) + ', ' + (evt.clientY + SIZE_PIN_Y);
