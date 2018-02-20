@@ -3,8 +3,11 @@
   function movePin() {
     var MIN_PIN_Y = 150;
     var MAX_PIN_Y = 500;
+    var mapPinMain = document.querySelector('.map__pin--main');
+    var address = document.getElementById('address');
+    var map = document.querySelector('.map');
 
-    window.map.mapPinMain.addEventListener('mousedown', function (evt) {
+    mapPinMain.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
       var startCoords = {
@@ -12,8 +15,8 @@
         y: evt.pageY
       };
       var pinStartCoords = {
-        x: window.map.mapPinMain.offsetLeft,
-        y: window.map.mapPinMain.offsetTop
+        x: mapPinMain.offsetLeft,
+        y: mapPinMain.offsetTop
       };
 
       function onMapTokyoMousemove(moveEvt) {
@@ -29,8 +32,8 @@
 
         if (pinCoords.x < 0) {
           pinCoords.x = 0;
-        } else if (pinCoords.x > window.map.map.clientWidth) {
-          pinCoords.x = window.map.map.clientWidth;
+        } else if (pinCoords.x > map.clientWidth) {
+          pinCoords.x = map.clientWidth;
         }
 
         if (pinCoords.y < MIN_PIN_Y) {
@@ -39,9 +42,9 @@
           pinCoords.y = MAX_PIN_Y;
         }
 
-        window.map.mapPinMain.style.top = pinCoords.y + 'px';
-        window.map.mapPinMain.style.left = pinCoords.x + 'px';
-        window.map.address.value = pinCoords.x + ', ' + pinCoords.y;
+        mapPinMain.style.top = pinCoords.y + 'px';
+        mapPinMain.style.left = pinCoords.x + 'px';
+        address.value = pinCoords.x + ', ' + pinCoords.y;
       }
 
       function onMapTokyoMouseup(upEvt) {

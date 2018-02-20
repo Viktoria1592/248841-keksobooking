@@ -71,9 +71,9 @@
 
   init();
 
-  window.map = {
-    mapPinMain: mapPinMain,
-    address: address,
-    map: map
-  };
+  //window.map = {
+  //  mapPinMain: mapPinMain,
+  //  address: address,
+  //  map: map
+  //};
 })();
