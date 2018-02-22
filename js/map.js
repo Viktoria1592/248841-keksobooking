@@ -47,33 +47,60 @@
     }
   }
 
+  function download(evt) {
+    window.upload(new FormData(noticeForm), function () {
+      noticeForm.reset();
+    },
+    errorBlock);
+    evt.preventDefault();
+  }
+
+  var errorBlock = function (errorMessage) {
+    var div = document.createElement('div');
+    div.style = 'z-index: 10; margin: 0; text-align: center; background-color: white; border: 3px solid black;';
+    div.style.position = 'fixed';
+    div.style.width = '50%';
+    div.style.height = '70px';
+    div.style.paddingTop = '20px';
+    div.style.left = '25%';
+    div.style.top = '25%';
+    div.style.fontSize = '30px';
+    div.textContent = errorMessage;
+    div.style.color = 'DarkRed';
+    document.body.prepend(div);
+    setTimeout(function () {
+      div.classList.add('hidden');
+    }, 2500);
+  };
+
   function init() {
-    pinsData = window.data.setarr();
+  //  pinsData = window.data.setarr();
     var dragget;
+    window.load(function (response) {
+      pinsData = response;
+      mapPinMain.addEventListener('mouseup', function (evt) {
+        if (!dragget) {
+          removeMapFaded();
+          removeNoticeFormDisabled();
+          removeDisable();
+          mapPins.appendChild(window.pin.createPins(pinsData));
 
-    mapPinMain.addEventListener('mouseup', function (evt) {
-      if (!dragget) {
-        removeMapFaded();
-        removeNoticeFormDisabled();
-        removeDisable();
-        mapPins.appendChild(window.pin.createPins(pinsData));
+          address.value = (evt.clientX) + ', ' + (evt.clientY);
 
-        address.value = (evt.clientX) + ', ' + (evt.clientY);
+          mapPins.addEventListener('click', onMapPinsClick);
 
-        mapPins.addEventListener('click', onMapPinsClick);
+          window.pinMove.movePin();
+        }
+        dragget = true;
 
-        window.pinMove.movePin();
-      }
-      dragget = true;
 
-    });
+        noticeForm.addEventListener('submit', download);
+
+      });
+    }, errorBlock);
+
   }
 
   init();
 
-  //window.map = {
-  //  mapPinMain: mapPinMain,
-  //  address: address,
-  //  map: map
-  //};
 })();
