@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
   function movePin() {
     var MIN_PIN_Y = 150;
@@ -21,6 +22,7 @@
 
       function onMapTokyoMousemove(moveEvt) {
         moveEvt.preventDefault();
+
         var shift = {
           x: startCoords.x - moveEvt.pageX,
           y: startCoords.y - moveEvt.pageY

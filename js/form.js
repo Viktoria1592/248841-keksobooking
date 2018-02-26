@@ -13,7 +13,6 @@
     [0, 1, 1, 0],
     [1, 1, 1, 0]
   ];
-
   var ROOMS = {
     100: 0,
     1: 1,
@@ -22,12 +21,14 @@
   };
   var selectionHousing = document.getElementById('type');
   var housingPrice = document.getElementById('price');
+  var timein = document.getElementById('timein');
+  var timeout = document.getElementById('timeout');
+  var roomNumber = document.getElementById('room_number');
+  var capacity = document.getElementById('capacity');
+
   function onSelectionHousingChange(evt) {
     housingPrice.min = MIN_PRICE_HOUSING[evt.target.value];
   }
-
-  var timein = document.getElementById('timein');
-  var timeout = document.getElementById('timeout');
 
   function onTimeinChange(evt) {
     timeout.value = evt.target.value;
@@ -36,8 +37,6 @@
     timein.value = evt.target.value;
   }
 
-  var roomNumber = document.getElementById('room_number');
-  var capacity = document.getElementById('capacity');
   function onRoomNumberChange(evt) {
     for (var i = 0; i < 4; i++) {
       if (capacity.children[i].hasAttribute('disabled')) {

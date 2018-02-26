@@ -11,20 +11,19 @@
   var noticeForm = document.querySelector('.notice__form');
   var mapPinMain = document.querySelector('.map__pin--main');
   var address = document.getElementById('address');
-
+  var housingPrice = document.getElementById('price');
   var pinsData;
 
   function onMapPinsClick(evt) {
     for (var i = 0; i < evt.path.length; i++) {
       if (evt.path[i].classList && evt.path[i].classList.contains('map__pin') && !evt.path[i].classList.contains('map__pin--main')) {
-
-        if (isCardShown) {
+        if (window.map.isCardShown) {
           document.querySelector('.map__card ').remove();
         }
 
-        isCardShown = true;
+        window.map.isCardShown = true;
 
-        var adCard = window.card.createCard(pinsData[evt.path[i].dataset.index], mapCard.cloneNode('true'));
+        var adCard = window.card.createCard(window.pin.filterPinsData(pinsData)[evt.path[i].dataset.index], mapCard.cloneNode('true'));
         mapFiltersContainer.before(adCard);
       }
     }
@@ -55,7 +54,7 @@
     evt.preventDefault();
   }
 
-  var errorBlock = function (errorMessage) {
+  function errorBlock(errorMessage) {
     var div = document.createElement('div');
     div.style = 'z-index: 10; margin: 0; text-align: center; background-color: white; border: 3px solid black;';
     div.style.position = 'fixed';
@@ -71,10 +70,9 @@
     setTimeout(function () {
       div.classList.add('hidden');
     }, 2500);
-  };
+  }
 
   function init() {
-  //  pinsData = window.data.setarr();
     var dragget;
     window.load(function (response) {
       pinsData = response;
@@ -83,24 +81,24 @@
           removeMapFaded();
           removeNoticeFormDisabled();
           removeDisable();
-          mapPins.appendChild(window.pin.createPins(pinsData));
 
-          address.value = (evt.clientX) + ', ' + (evt.clientY);
-
+          mapPins.appendChild(window.pin.createPins(pinsData.slice().splice(0, 5)));
           mapPins.addEventListener('click', onMapPinsClick);
 
+          address.value = (evt.clientX) + ', ' + (evt.clientY);
+          housingPrice.value = 1000;
           window.pinMove.movePin();
         }
         dragget = true;
 
-
         noticeForm.addEventListener('submit', download);
-
       });
+      window.map = {
+        pinsData: pinsData,
+        isCardShown: isCardShown
+      };
     }, errorBlock);
-
   }
 
   init();
-
 })();
