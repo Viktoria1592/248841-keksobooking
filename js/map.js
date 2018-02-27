@@ -25,8 +25,19 @@
 
         var adCard = window.card.createCard(window.pin.filterPinsData(pinsData)[evt.path[i].dataset.index], mapCard.cloneNode('true'));
         mapFiltersContainer.before(adCard);
+        document.querySelector('.popup__close').addEventListener('mousedown', cardDelete);
+        document.querySelector('.popup__close').addEventListener('keydown', function (evtClose) {
+          if (evtClose.keyCode === 13) {
+            cardDelete();
+          }
+        });
       }
     }
+  }
+
+  function cardDelete() {
+    document.querySelector('.map__card ').remove();
+    window.map.isCardShown = false;
   }
 
   function removeMapFaded() {

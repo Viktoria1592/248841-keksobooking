@@ -62,6 +62,7 @@
     fragmentCard.appendChild(cardPopup);
     return fragmentCard;
   }
+
   window.card = {
     createCard: createCard
   };

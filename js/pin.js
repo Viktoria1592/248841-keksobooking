@@ -8,12 +8,6 @@
   var mapPins = document.querySelector('.map__pins');
   var features = document.getElementById('housing-features');
   var arrFeatures = features.getElementsByTagName('input');
-  var filterWifi = document.getElementById('filter-wifi');
-  var dishwasher = document.getElementById('filter-dishwasher');
-  var parking = document.getElementById('filter-parking');
-  var washer = document.getElementById('filter-washer');
-  var elevator = document.getElementById('filter-elevator');
-  var conditioner = document.getElementById('filter-conditioner');
 
   function addPins() {
     mapPins.appendChild(createPins(filterPinsData(window.map.pinsData).splice(0, 5)));
@@ -34,12 +28,10 @@
   typeOfPrice.addEventListener('change', filterUpdateHandler);
   numberOfRooms.addEventListener('change', filterUpdateHandler);
   numberOfGuests.addEventListener('change', filterUpdateHandler);
-  filterWifi.addEventListener('change', filterUpdateHandler);
-  dishwasher.addEventListener('change', filterUpdateHandler);
-  parking.addEventListener('change', filterUpdateHandler);
-  washer.addEventListener('change', filterUpdateHandler);
-  elevator.addEventListener('change', filterUpdateHandler);
-  conditioner.addEventListener('change', filterUpdateHandler);
+
+  for (var l = 0; l < arrFeatures.length; l++) {
+    arrFeatures[l].addEventListener('change', filterUpdateHandler);
+  }
 
   function filterTypeOfHousing(offerData) {
     if (typeOfHousing.value !== 'any') {
@@ -77,8 +69,8 @@
   }
 
   function filterFeatures(offerData) {
-    for (var i = 0; i < arrFeatures.length; i++) {
-      if (arrFeatures[i].checked && !offerData.offer.features.includes(arrFeatures[i].value)) {
+    for (var j = 0; j < arrFeatures.length; j++) {
+      if (arrFeatures[j].checked && !offerData.offer.features.includes(arrFeatures[j].value)) {
         return false;
       }
     }
