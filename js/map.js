@@ -12,19 +12,25 @@
   var mapPinMain = document.querySelector('.map__pin--main');
   var address = document.getElementById('address');
   var housingPrice = document.getElementById('price');
+  var START_PRICE = 1000;
   var pinsData;
 
   function onMapPinsClick(evt) {
-    for (var i = 0; i < evt.path.length; i++) {
-      if (evt.path[i].classList && evt.path[i].classList.contains('map__pin') && !evt.path[i].classList.contains('map__pin--main')) {
+    eventPath(evt);
+    for (var i = 0; i < eventPath(evt).length; i++) {
+      if (eventPath(evt)[i].classList && eventPath(evt)[i].classList.contains('map__pin') && !eventPath(evt)[i].classList.contains('map__pin--main')) {
         if (window.map.isCardShown) {
           document.querySelector('.map__card ').remove();
         }
 
         window.map.isCardShown = true;
-
-        var adCard = window.card.createCard(window.pin.filterPinsData(pinsData)[evt.path[i].dataset.index], mapCard.cloneNode('true'));
-        mapFiltersContainer.before(adCard);
+        var adCard = window.card.createCard(window.pin.filterPinsData(pinsData)[eventPath(evt)[i].dataset.index], mapCard.cloneNode('true'));
+        mapFiltersContainer.insertBefore(adCard, mapFiltersContainer.firstChild);
+        document.addEventListener('keydown', function (evtClose) {
+          if (evtClose.keyCode === 27 && window.map.isCardShown) {
+            cardDelete();
+          }
+        });
         document.querySelector('.popup__close').addEventListener('mousedown', cardDelete);
         document.querySelector('.popup__close').addEventListener('keydown', function (evtClose) {
           if (evtClose.keyCode === 13) {
@@ -38,6 +44,32 @@
   function cardDelete() {
     document.querySelector('.map__card ').remove();
     window.map.isCardShown = false;
+  }
+
+  function eventPath(evt) {
+    var path = (evt.composedPath && evt.composedPath()) || evt.path;
+    var target = evt.target;
+
+    if (path) {
+      return (path.indexOf(window) < 0) ? path.concat(window) : path;
+    }
+
+    if (target === window) {
+      return [window];
+    }
+
+    function getParents(node, memo) {
+      memo = memo || [];
+      var parentNode = node.parentNode;
+
+      if (!parentNode) {
+        return memo;
+      } else {
+        return getParents(parentNode, memo.concat(parentNode));
+      }
+    }
+
+    return [target].concat(getParents(target), window);
   }
 
   function removeMapFaded() {
@@ -92,12 +124,13 @@
           removeMapFaded();
           removeNoticeFormDisabled();
           removeDisable();
+          document.querySelector('.map__filters').reset();
 
-          mapPins.appendChild(window.pin.createPins(pinsData.slice().splice(0, 5)));
+          mapPins.appendChild(window.pin.createPins(window.pin.filterPinsData(pinsData).splice(0, 5)));
           mapPins.addEventListener('click', onMapPinsClick);
 
           address.value = (evt.clientX) + ', ' + (evt.clientY);
-          housingPrice.value = 1000;
+          housingPrice.value = START_PRICE;
           window.pinMove.movePin();
         }
         dragget = true;

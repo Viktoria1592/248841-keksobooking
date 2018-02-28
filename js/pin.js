@@ -55,14 +55,14 @@
 
   function filterNumberOfRooms(offerData) {
     if (numberOfRooms.value !== 'any') {
-      return offerData.offer.rooms == numberOfRooms.value;
+      return offerData.offer.rooms === +numberOfRooms.value;
     } else {
       return true;
     }
   }
   function filterNumberOfGuests(offerData) {
     if (numberOfGuests.value !== 'any') {
-      return offerData.offer.guests == numberOfGuests.value;
+      return offerData.offer.guests === +numberOfGuests.value;
     } else {
       return true;
     }
