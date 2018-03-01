@@ -12,19 +12,25 @@
   var mapPinMain = document.querySelector('.map__pin--main');
   var address = document.getElementById('address');
   var housingPrice = document.getElementById('price');
+  var typeOfHousing = document.getElementById('housing-type');
+  var typeOfPrice = document.getElementById('housing-price');
+  var numberOfRooms = document.getElementById('housing-rooms');
+  var numberOfGuests = document.getElementById('housing-guests');
+  var features = document.getElementById('housing-features');
+  var arrFeatures = features.getElementsByTagName('input');
   var START_PRICE = 1000;
   var pinsData;
 
   function onMapPinsClick(evt) {
-    eventPath(evt);
-    for (var i = 0; i < eventPath(evt).length; i++) {
-      if (eventPath(evt)[i].classList && eventPath(evt)[i].classList.contains('map__pin') && !eventPath(evt)[i].classList.contains('map__pin--main')) {
+    window.util.eventPath(evt);
+    for (var i = 0; i < window.util.eventPath(evt).length; i++) {
+      if (window.util.eventPath(evt)[i].classList && window.util.eventPath(evt)[i].classList.contains('map__pin') && !window.util.eventPath(evt)[i].classList.contains('map__pin--main')) {
         if (window.map.isCardShown) {
           document.querySelector('.map__card ').remove();
         }
 
         window.map.isCardShown = true;
-        var adCard = window.card.createCard(window.pin.filterPinsData(pinsData)[eventPath(evt)[i].dataset.index], mapCard.cloneNode('true'));
+        var adCard = window.card.createCard(window.pin.filterPinsData(pinsData)[window.util.eventPath(evt)[i].dataset.index], mapCard.cloneNode('true'));
         mapFiltersContainer.insertBefore(adCard, mapFiltersContainer.firstChild);
         document.addEventListener('keydown', function (evtClose) {
           if (evtClose.keyCode === 27 && window.map.isCardShown) {
@@ -44,32 +50,6 @@
   function cardDelete() {
     document.querySelector('.map__card ').remove();
     window.map.isCardShown = false;
-  }
-
-  function eventPath(evt) {
-    var path = (evt.composedPath && evt.composedPath()) || evt.path;
-    var target = evt.target;
-
-    if (path) {
-      return (path.indexOf(window) < 0) ? path.concat(window) : path;
-    }
-
-    if (target === window) {
-      return [window];
-    }
-
-    function getParents(node, memo) {
-      memo = memo || [];
-      var parentNode = node.parentNode;
-
-      if (!parentNode) {
-        return memo;
-      } else {
-        return getParents(parentNode, memo.concat(parentNode));
-      }
-    }
-
-    return [target].concat(getParents(target), window);
   }
 
   function removeMapFaded() {
@@ -116,7 +96,16 @@
   }
 
   function init() {
+    typeOfHousing.addEventListener('change', window.pin.filterUpdateHandler);
+    typeOfPrice.addEventListener('change', window.pin.filterUpdateHandler);
+    numberOfRooms.addEventListener('change', window.pin.filterUpdateHandler);
+    numberOfGuests.addEventListener('change', window.pin.filterUpdateHandler);
+
+    for (var l = 0; l < arrFeatures.length; l++) {
+      arrFeatures[l].addEventListener('change', window.pin.filterUpdateHandler);
+    }
     var dragget;
+
     window.load(function (response) {
       pinsData = response;
       mapPinMain.addEventListener('mouseup', function (evt) {
@@ -137,6 +126,7 @@
 
         noticeForm.addEventListener('submit', download);
       });
+
       window.map = {
         pinsData: pinsData,
         isCardShown: isCardShown

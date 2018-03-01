@@ -33,7 +33,7 @@
 
     var arrPictures = fotosPinsData.offer.photos;
 
-    for (var i = 0; i < arrPictures.length; i++) {
+    arrPictures.forEach(function (it, i) {
       var li = document.createElement('li');
       var img = document.createElement('img');
       img.src = arrPictures[i];
@@ -41,7 +41,8 @@
       img.style.height = HEIGHT_PHOTO + 'px';
       li.appendChild(img);
       popupPictures.appendChild(li);
-    }
+    });
+
     return popupPictures;
   }
 
@@ -52,7 +53,6 @@
     cardPopup.children[3].children[0].textContent = pinsDataArr.offer.address;
     var popupPrice = cardPopup.querySelector('.popup__price');
     popupPrice.textContent = pinsDataArr.offer.price + '&#x20bd;/ночь';
-
     cardPopup.children[5].textContent = typeOfHousing[pinsDataArr.offer.type];
     cardPopup.children[6].textContent = pinsDataArr.offer.rooms + ' комнаты для ' + pinsDataArr.offer.guests + ' гостей';
     cardPopup.children[7].textContent = 'Заезд после ' + pinsDataArr.offer.checkin + ', выезд до ' + pinsDataArr.offer.checkout;

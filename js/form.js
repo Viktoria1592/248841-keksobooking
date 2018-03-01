@@ -33,6 +33,7 @@
   function onTimeinChange(evt) {
     timeout.value = evt.target.value;
   }
+
   function onTimeoutChange(evt) {
     timein.value = evt.target.value;
   }
@@ -51,6 +52,7 @@
       }
     }
   }
+
   roomNumber.addEventListener('change', onRoomNumberChange);
   selectionHousing.addEventListener('change', onSelectionHousingChange);
   timein.addEventListener('change', onTimeinChange);

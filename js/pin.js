@@ -21,16 +21,7 @@
       document.querySelector('.map__card ').remove();
     }
     window.map.isCardShown = false;
-    window.debounce(addPins);
-  }
-
-  typeOfHousing.addEventListener('change', filterUpdateHandler);
-  typeOfPrice.addEventListener('change', filterUpdateHandler);
-  numberOfRooms.addEventListener('change', filterUpdateHandler);
-  numberOfGuests.addEventListener('change', filterUpdateHandler);
-
-  for (var l = 0; l < arrFeatures.length; l++) {
-    arrFeatures[l].addEventListener('change', filterUpdateHandler);
+    window.util.debounce(addPins);
   }
 
   function filterTypeOfHousing(offerData) {
@@ -40,6 +31,7 @@
       return true;
     }
   }
+
   function filterTypeOfPrice(offerData) {
     if (typeOfPrice.value !== 'any') {
       if (typeOfPrice.value === 'middle') {
@@ -60,6 +52,7 @@
       return true;
     }
   }
+
   function filterNumberOfGuests(offerData) {
     if (numberOfGuests.value !== 'any') {
       return offerData.offer.guests === +numberOfGuests.value;
@@ -99,6 +92,7 @@
 
   window.pin = {
     createPins: createPins,
-    filterPinsData: filterPinsData
+    filterPinsData: filterPinsData,
+    filterUpdateHandler: filterUpdateHandler
   };
 })();
