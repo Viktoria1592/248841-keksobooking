@@ -7,8 +7,7 @@
   var SUCCESS_LOAD = 200;
 
   window.load = function (onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    handlingLoad(xhr, onLoad, onError);
+    var xhr = handlingLoad(onLoad, onError);
 
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
@@ -19,14 +18,14 @@
   };
 
   window.upload = function (data, onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    handlingLoad(xhr, onLoad, onError);
+    var xhr = handlingLoad(onLoad, onError);
 
     xhr.open('POST', URL_UPLOAD);
     xhr.send(data);
   };
 
-  function handlingLoad(xhr, onLoad, onError) {
+  function handlingLoad(onLoad, onError) {
+    var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === SUCCESS_LOAD) {
@@ -38,6 +37,7 @@
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });
+    return xhr;
   }
 
 })();
