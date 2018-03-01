@@ -59,6 +59,7 @@
       document.addEventListener('mouseup', onMapTokyoMouseup);
     });
   }
+
   window.pinMove = {
     movePin: movePin
   };

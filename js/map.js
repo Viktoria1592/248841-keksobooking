@@ -12,21 +12,44 @@
   var mapPinMain = document.querySelector('.map__pin--main');
   var address = document.getElementById('address');
   var housingPrice = document.getElementById('price');
+  var typeOfHousing = document.getElementById('housing-type');
+  var typeOfPrice = document.getElementById('housing-price');
+  var numberOfRooms = document.getElementById('housing-rooms');
+  var numberOfGuests = document.getElementById('housing-guests');
+  var features = document.getElementById('housing-features');
+  var arrFeatures = features.getElementsByTagName('input');
+  var START_PRICE = 1000;
   var pinsData;
 
   function onMapPinsClick(evt) {
-    for (var i = 0; i < evt.path.length; i++) {
-      if (evt.path[i].classList && evt.path[i].classList.contains('map__pin') && !evt.path[i].classList.contains('map__pin--main')) {
+    window.util.eventPath(evt);
+    for (var i = 0; i < window.util.eventPath(evt).length; i++) {
+      if (window.util.eventPath(evt)[i].classList && window.util.eventPath(evt)[i].classList.contains('map__pin') && !window.util.eventPath(evt)[i].classList.contains('map__pin--main')) {
         if (window.map.isCardShown) {
           document.querySelector('.map__card ').remove();
         }
 
         window.map.isCardShown = true;
-
-        var adCard = window.card.createCard(window.pin.filterPinsData(pinsData)[evt.path[i].dataset.index], mapCard.cloneNode('true'));
-        mapFiltersContainer.before(adCard);
+        var adCard = window.card.createCard(window.pin.filterPinsData(pinsData)[window.util.eventPath(evt)[i].dataset.index], mapCard.cloneNode('true'));
+        mapFiltersContainer.insertBefore(adCard, mapFiltersContainer.firstChild);
+        document.addEventListener('keydown', function (evtClose) {
+          if (evtClose.keyCode === 27 && window.map.isCardShown) {
+            cardDelete();
+          }
+        });
+        document.querySelector('.popup__close').addEventListener('mousedown', cardDelete);
+        document.querySelector('.popup__close').addEventListener('keydown', function (evtClose) {
+          if (evtClose.keyCode === 13) {
+            cardDelete();
+          }
+        });
       }
     }
+  }
+
+  function cardDelete() {
+    document.querySelector('.map__card ').remove();
+    window.map.isCardShown = false;
   }
 
   function removeMapFaded() {
@@ -73,7 +96,16 @@
   }
 
   function init() {
+    typeOfHousing.addEventListener('change', window.pin.filterUpdateHandler);
+    typeOfPrice.addEventListener('change', window.pin.filterUpdateHandler);
+    numberOfRooms.addEventListener('change', window.pin.filterUpdateHandler);
+    numberOfGuests.addEventListener('change', window.pin.filterUpdateHandler);
+
+    for (var l = 0; l < arrFeatures.length; l++) {
+      arrFeatures[l].addEventListener('change', window.pin.filterUpdateHandler);
+    }
     var dragget;
+
     window.load(function (response) {
       pinsData = response;
       mapPinMain.addEventListener('mouseup', function (evt) {
@@ -81,18 +113,20 @@
           removeMapFaded();
           removeNoticeFormDisabled();
           removeDisable();
+          document.querySelector('.map__filters').reset();
 
-          mapPins.appendChild(window.pin.createPins(pinsData.slice().splice(0, 5)));
+          mapPins.appendChild(window.pin.createPins(window.pin.filterPinsData(pinsData).splice(0, 5)));
           mapPins.addEventListener('click', onMapPinsClick);
 
           address.value = (evt.clientX) + ', ' + (evt.clientY);
-          housingPrice.value = 1000;
+          housingPrice.value = START_PRICE;
           window.pinMove.movePin();
         }
         dragget = true;
 
         noticeForm.addEventListener('submit', download);
       });
+
       window.map = {
         pinsData: pinsData,
         isCardShown: isCardShown
